@@ -642,32 +642,29 @@ run(function()
 	vape.Categories.Blatant:CreateModule({
 		Name = 'NoSlowdown',
 		Function = function(callback)
-			local func = findUpdateDoSlowdown()
-			if not func then 
-				warn("NoSlowdown: updateDoSlowdown function not found in GC")
-				return 
-			end
+			local updateDoSlowdown
+            local movementHeartbeat
 
-			if callback then
-				-- 1. Store the original function so we can restore it later
-				originalFunc = hookfunction(func, function()
-					return -- Prevent v2 from being set to true
-				end)
+            -- 1. Locate the local functions in the Garbage Collector
+            for _, v in pairs(getgc()) do
+                if type(v) == "function" and islclosure(v) then
+                    local info = debug.getinfo(v)
+                    if info.name == "updateDoSlowdown" then
+                        updateDoSlowdown = v
+                    end
+                end
+            end
 
-				-- 2. Force the current 'v2' upvalue (index 1) to false immediately
-				debug.setupvalue(func, 1, false)
-			else
-				-- 3. Restore the original function when disabling
-				if originalFunc then
-					hookfunction(func, originalFunc)
-					originalFunc = nil
-				end
-
-				-- 4. Force a manual update of the state so the player instantly slows down again if they are currently blocking/eating
-				if func then
-					func()
-				end
-			end
+            if updateDoSlowdown then
+                -- 2. Force the upvalue 'v2' to false
+                -- In the script: updateDoSlowdown has upvalues: v2 (1), LocalPlayer (2), LocalEntity (3)
+                debug.setupvalue(updateDoSlowdown, 1, false)
+                
+                -- 3. Hook the function so it can never set v2 to true again
+                hookfunction(updateDoSlowdown, function()
+                    return -- Do nothing, keeping v2 permanently false
+                end)
+            end
 		end,
 		Tooltip = 'Prevents slowing down when using items.'
 	})
