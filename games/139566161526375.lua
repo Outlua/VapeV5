@@ -622,25 +622,51 @@ run(function()
 end)
 	
 run(function()
-	local old
-	
+	local originalFunc = nil
+	local targetUpdateDoSlowdown = nil
+
+	-- Helper to find the function from GC once to minimize overhead
+	local function findUpdateDoSlowdown()
+		if targetUpdateDoSlowdown then return targetUpdateDoSlowdown end
+		for _, v in ipairs(getgc()) do
+			if type(v) == "function" and islclosure(v) then
+				local info = debug.getinfo(v)
+				if info.name == "updateDoSlowdown" then
+					targetUpdateDoSlowdown = v
+					return v
+				end
+			end
+		end
+	end
+
 	vape.Categories.Blatant:CreateModule({
 		Name = 'NoSlowdown',
 		Function = function(callback)
-			local func = debug.getproto(bd.MovementController.KnitStart, 7)
-	
+			local func = findUpdateDoSlowdown()
+			if not func then 
+				warn("NoSlowdown: updateDoSlowdown function not found in GC")
+				return 
+			end
+
 			if callback then
-				old = debug.getconstants(func)
-				for i, v in old do
-					if type(v) == 'string' and (v:find('Client') or v == 'IsChargingBow') and v ~= 'ClientSneaking' then
-						debug.setconstant(func, i, 'IsSpectating')
-					end
-				end
+				-- 1. Store the original function so we can restore it later
+				originalFunc = hookfunction(func, function()
+					return -- Prevent v2 from being set to true
+				end)
+
+				-- 2. Force the current 'v2' upvalue (index 1) to false immediately
+				debug.setupvalue(func, 1, false)
 			else
-				for i, v in old do
-					debug.setconstant(func, i, v)
+				-- 3. Restore the original function when disabling
+				if originalFunc then
+					hookfunction(func, originalFunc)
+					originalFunc = nil
 				end
-				table.clear(old)
+
+				-- 4. Force a manual update of the state so the player instantly slows down again if they are currently blocking/eating
+				if func then
+					func()
+				end
 			end
 		end,
 		Tooltip = 'Prevents slowing down when using items.'
