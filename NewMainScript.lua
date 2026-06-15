@@ -1,3 +1,5 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/refs/heads/main/Universal/Bypasses.lua"))();
+
 local isfile = isfile or function(file)
 	local suc, res = pcall(function()
 		return readfile(file)
