@@ -377,6 +377,30 @@ entitylib.start = function()
 	if entitylib.Running then
 		entitylib.stop()
 	end
+
+	local function addBPBotsModel(model)
+		if not model or not model:IsA('Model') or model == lplr and lplr.Character then return end
+		if entitylib.getEntity(model) then return end
+		local hum = model:FindFirstChildOfClass('Humanoid')
+		if hum then
+			entitylib.refreshEntity(model, nil)
+		end
+	end
+
+	local function watchBPBots(root)
+		if not root or root:GetAttribute('_vapeBPBotsWatched') then return end
+		root:SetAttribute('_vapeBPBotsWatched', true)
+		for _, v in root:GetDescendants() do
+			addBPBotsModel(v)
+		end
+		table.insert(entitylib.Connections, root.DescendantAdded:Connect(function(v)
+			addBPBotsModel(v)
+		end))
+		table.insert(entitylib.Connections, root.ChildAdded:Connect(function(v)
+			addBPBotsModel(v)
+		end))
+	end
+
 	table.insert(entitylib.Connections, playersService.PlayerAdded:Connect(function(v)
 		entitylib.addPlayer(v)
 	end))
@@ -386,6 +410,17 @@ entitylib.start = function()
 	for _, v in playersService:GetPlayers() do
 		entitylib.addPlayer(v)
 	end
+
+	local botsRoot = workspace:FindFirstChild('BPBots')
+	if botsRoot then
+		watchBPBots(botsRoot)
+	end
+	table.insert(entitylib.Connections, workspace.ChildAdded:Connect(function(v)
+		if v.Name == 'BPBots' then
+			watchBPBots(v)
+		end
+	end))
+
 	table.insert(entitylib.Connections, workspace:GetPropertyChangedSignal('CurrentCamera'):Connect(function()
 		gameCamera = workspace.CurrentCamera or workspace:FindFirstChildWhichIsA('Camera')
 	end))
