@@ -4,9 +4,17 @@ end
 local cloneref = cloneref or function(obj)
 	return obj
 end
+local vape = shared.vape
 local playersService = cloneref(game:GetService('Players'))
 local inputService = cloneref(game:GetService('UserInputService'))
 local runService = cloneref(game:GetService('RunService'))
+
+local function waitForVape()
+	repeat
+		task.wait()
+	until shared.vape and shared.vape.Categories and shared.vape.Categories.Blatant and shared.vape.Categories.Combat
+	return shared.vape
+end
 
 local function getMyVehicle()
 	local vehiclesFolder = workspace:FindFirstChild('Vehicles')
@@ -69,6 +77,7 @@ local function findMySeat()
 end
 
 run(function()
+	vape = waitForVape()
 	local VehicleCollisionIgnore
 	VehicleCollisionIgnore = vape.Categories.Blatant:CreateModule({
 		Name = 'VehicleCollisionIgnore',
@@ -171,7 +180,7 @@ run(function()
 		Tooltip = 'Hold W or S while seated in a vehicle to apply a forward or reverse thrust boost.'
 	})
 
-	BOOST_ACCEL = VehicleBoost:CreateSlider({
+	local BoostForce = VehicleBoost:CreateSlider({
 		Name = 'Boost Force',
 		Min = 50,
 		Max = 500,
@@ -181,6 +190,7 @@ run(function()
 			BOOST_ACCEL = val
 		end
 	})
+	BOOST_ACCEL = BoostForce.Value or 200
 end)
 
 run(function()
