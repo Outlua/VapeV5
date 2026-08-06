@@ -17,7 +17,7 @@ local function downloadFile(path, func)
 			return game:HttpGet('https://raw.githubusercontent.com/Outlua/VapeV5/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
 		end)
 		if not suc or res == '404: Not Found' then
-			error(res, "Failed to download file: "..path .. " from repo with commit ref: "..getCommitRef() .. " at url " .. 'https://raw.githubusercontent.com/Outlua/VapeV5/'..getCommitRef()..'/'..resolveRepoPath(path))
+			error(res)
 		end
 		if path:find('.lua') then
 			res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.\n'..res
