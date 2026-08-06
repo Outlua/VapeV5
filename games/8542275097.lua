@@ -37,7 +37,7 @@ else
 			return game:HttpGet('https://raw.githubusercontent.com/Outlua/VapeV5/'..readfile('newvape/profiles/commit.txt')..'/games/'..vape.Place..'.lua', true) 
 		end)
 		if suc and res ~= '404: Not Found' then
-			loadstring(downloadFile('newvape/games/'..vape.Place..'.lua'), 'skywars')()
+			loadstring(downloadFile('src/games/'..vape.Place..'.lua'), 'skywars')()
 		end
 	end
 end

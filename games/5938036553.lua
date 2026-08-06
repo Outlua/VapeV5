@@ -49,7 +49,7 @@ local prediction = vape.Libraries.prediction
 local targetinfo = vape.Libraries.targetinfo
 local sessioninfo = vape.Libraries.sessioninfo
 local getcustomasset = vape.Libraries.getcustomasset
-local drawingactor = loadstring(downloadFile('newvape/libraries/drawing.lua'), 'drawing')(...)
+local drawingactor = loadstring(downloadFile('src/libraries/drawing.lua'), 'drawing')(...)
 local function notif(...)
 	return vape:CreateNotification(...)
 end

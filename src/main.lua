@@ -101,7 +101,7 @@ vape = loadstring(downloadFile('src/guis/'..gui..'.lua'), 'gui')()
 shared.vape = vape
 
 if not shared.VapeIndependent then
-	loadstring(downloadFile('newvape/games/universal.lua'), 'universal')()
+	loadstring(downloadFile('src/games/universal.lua'), 'universal')()
 	if isfile('newvape/games/'..game.PlaceId..'.lua') then
 		loadstring(readfile('src/games/'..game.PlaceId..'.lua'), tostring(game.PlaceId))(...)
 	else

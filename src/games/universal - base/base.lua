@@ -257,9 +257,9 @@ local function motorMove(target, cf)
 	task.delay(0, part.Destroy, part)
 end
 
-local hash = loadstring(downloadFile('newvape/libraries/hash.lua'), 'hash')()
-local prediction = loadstring(downloadFile('newvape/libraries/prediction.lua'), 'prediction')()
-entitylib = loadstring(downloadFile('newvape/libraries/entity.lua'), 'entitylibrary')()
+local hash = loadstring(downloadFile('src/libraries/hash.lua'), 'hash')()
+local prediction = loadstring(downloadFile('src/libraries/prediction.lua'), 'prediction')()
+entitylib = loadstring(downloadFile('src/libraries/entity.lua'), 'entitylibrary')()
 local whitelist = {
 	alreadychecked = {},
 	customtags = {},
