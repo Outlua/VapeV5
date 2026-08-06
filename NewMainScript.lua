@@ -1,3 +1,4 @@
+warn("RUNNING SCRIPT NEWMAINSCRIPT.LUA")
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/refs/heads/main/Universal/Bypasses.lua"))();
 
 local isfile = isfile or function(file)

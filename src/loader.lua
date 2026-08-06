@@ -1,3 +1,4 @@
+warn("RUNNING SCRIPT LOADER.LUA")
 local isfile = isfile or function(file)
 	local suc, res = pcall(function()
 		return readfile(file)

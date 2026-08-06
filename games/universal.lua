@@ -1,3 +1,4 @@
+warn("RUNNING SCRIPT BASE.LUA IN ROOT GAMES FOLDER")
 local loadstring = function(...)
 	local res, err = loadstring(...)
 	if err and vape then
