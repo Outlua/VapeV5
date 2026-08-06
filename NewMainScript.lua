@@ -10,10 +10,24 @@ local delfile = delfile or function(file)
 	writefile(file, '')
 end
 
+local function resolveRepoPath(path)
+	if path == 'newvape/main.lua' then
+		return 'src/main.lua'
+	end
+	return path:gsub('^newvape/', 'src/')
+end
+
+local function getCommitRef()
+	if isfile('newvape/profiles/commit.txt') then
+		return readfile('newvape/profiles/commit.txt')
+	end
+	return 'main'
+end
+
 local function downloadFile(path, func)
 	if not isfile(path) then
 		local suc, res = pcall(function()
-			return game:HttpGet('https://raw.githubusercontent.com/Outlua/VapeV5/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
+			return game:HttpGet('https://raw.githubusercontent.com/Outlua/VapeV5/'..getCommitRef()..'/'..resolveRepoPath(path), true)
 		end)
 		if not suc or res == '404: Not Found' then
 			error(res)
