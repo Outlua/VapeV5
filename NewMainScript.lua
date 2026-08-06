@@ -14,6 +14,18 @@ local function resolveRepoPath(path)
 	if path == 'newvape/main.lua' then
 		return 'src/main.lua'
 	end
+	if path == 'newvape/loader.lua' then
+		return 'src/loader.lua'
+	end
+	if path:find('^newvape/games/') then
+		return path:gsub('^newvape/games/', 'src/games/')
+	end
+	if path:find('^newvape/guis/') then
+		return path:gsub('^newvape/guis/', 'src/guis/')
+	end
+	if path:find('^newvape/libraries/') then
+		return path:gsub('^newvape/libraries/', 'src/libraries/')
+	end
 	return path:gsub('^newvape/', 'src/')
 end
 
