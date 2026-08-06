@@ -41,13 +41,8 @@ for _, folder in {'newvape', 'newvape/games', 'newvape/profiles', 'newvape/asset
 end
 
 if not shared.VapeDeveloper then
-<<<<<<< HEAD:loader.lua
 	local _, subbed = pcall(function() 
 		return game:HttpGet('https://github.com/Outlua/VapeV5') 
-=======
-	local _, subbed = pcall(function()
-		return game:HttpGet('https://github.com/7GrandDadPGN/VapeCompiled')
->>>>>>> 90c6aa9d081af9d42b76e428da60d778cd915ace:src/loader.lua
 	end)
 	local commit = subbed:find('currentOid')
 	commit = commit and subbed:sub(commit + 13, commit + 52) or nil
