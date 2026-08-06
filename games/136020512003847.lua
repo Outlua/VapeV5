@@ -207,6 +207,50 @@ run(function()
 end)
 
 run(function()
+	local VehicleJump
+	local JUMP_FORCE = 120
+
+	local function jumpVehicle()
+		if inputService:GetFocusedTextBox() then return end
+
+		local seat = findMySeat()
+		if not seat or not seat.Parent or not seat.Occupant then return end
+
+		local velocity = seat.AssemblyLinearVelocity
+		seat.AssemblyLinearVelocity = Vector3.new(velocity.X, velocity.Y + JUMP_FORCE, velocity.Z)
+	end
+
+	local function onInputBegan(input, gameProcessedEvent)
+		if gameProcessedEvent then return end
+		if input.KeyCode == Enum.KeyCode.F then
+			jumpVehicle()
+		end
+	end
+
+	VehicleJump = vape.Categories.Blatant:CreateModule({
+		Name = 'VehicleJump',
+		Function = function(callback)
+			if callback then
+				VehicleJump:Clean(inputService.InputBegan:Connect(onInputBegan))
+			end
+		end,
+		Tooltip = 'Press F while seated in a vehicle to instantly add an upward velocity boost.'
+	})
+
+	local JumpForce = VehicleJump:CreateSlider({
+		Name = 'Jump Force',
+		Min = 25,
+		Max = 400,
+		Default = 120,
+		Suffix = 'studs/s',
+		Function = function(val)
+			JUMP_FORCE = val
+		end
+	})
+	JUMP_FORCE = JumpForce.Value or 120
+end)
+
+run(function()
 	local GunModifications
 	GunModifications = vape.Categories.Combat:CreateModule({
 		Name = 'GunModifications',
