@@ -13,11 +13,7 @@ end
 local function downloadFile(path, func)
 	if not isfile(path) then
 		local suc, res = pcall(function()
-<<<<<<< HEAD
 			return game:HttpGet('https://raw.githubusercontent.com/Outlua/VapeV5/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
-=======
-			return game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeCompiled/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
->>>>>>> 90c6aa9d081af9d42b76e428da60d778cd915ace
 		end)
 		if not suc or res == '404: Not Found' then
 			error(res)
@@ -48,11 +44,7 @@ end
 
 if not shared.VapeDeveloper then
 	local _, subbed = pcall(function()
-<<<<<<< HEAD
 		return game:HttpGet('https://github.com/Outlua/VapeV5')
-=======
-		return game:HttpGet('https://github.com/7GrandDadPGN/VapeCompiled')
->>>>>>> 90c6aa9d081af9d42b76e428da60d778cd915ace
 	end)
 	local commit = subbed:find('currentOid')
 	commit = commit and subbed:sub(commit + 13, commit + 52) or nil
