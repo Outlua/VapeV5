@@ -41,7 +41,7 @@ local function downloadFile(path, func)
         end)
 
         if not suc or res == '404: Not Found' then
-            error(res)
+            error(res, "Failed to download file: "..path .. " from repo with commit ref: "..getCommitRef() .. " at url " .. 'https://raw.githubusercontent.com/Outlua/VapeV5/'..getCommitRef()..'/'..resolveRepoPath(path))
         end
 
         if path:find('.lua') then

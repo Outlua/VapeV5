@@ -244,14 +244,10 @@ local function downloadFile(path, func)
 	if not isfile(path) then
 		createDownloader(path)
 		local suc, res = pcall(function()
-<<<<<<< HEAD:guis/rise.lua
 			return game:HttpGet('https://raw.githubusercontent.com/Outlua/VapeV5/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
-=======
-			return game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeCompiled/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
->>>>>>> 90c6aa9d081af9d42b76e428da60d778cd915ace:src/guis/rise/gui.lua
 		end)
 		if not suc or res == '404: Not Found' then
-			error(res)
+			error(res, "Failed to download file: "..path .. " from repo with commit ref: "..getCommitRef() .. " at url " .. 'https://raw.githubusercontent.com/Outlua/VapeV5/'..getCommitRef()..'/'..resolveRepoPath(path))
 		end
 		if path:find('.lua') then
 			res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.\n'..res
