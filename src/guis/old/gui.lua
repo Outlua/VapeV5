@@ -2435,7 +2435,7 @@ topbar:CreateDropdown({
 <<<<<<< HEAD:guis/old.lua
 				loadstring(game:HttpGet('https://raw.githubusercontent.com/Outlua/VapeV5/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
 =======
-				loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeCompiled/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
+				loadstring(game:HttpGet('https://raw.githubusercontent.com/PGN/VapeCompiled/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
 >>>>>>> 90c6aa9d081af9d42b76e428da60d778cd915ace:src/guis/old/gui.lua
 			end
 		end
@@ -2477,7 +2477,7 @@ topbar:CreateButton({
 <<<<<<< HEAD:guis/old.lua
 			loadstring(game:HttpGet('https://raw.githubusercontent.com/Outlua/VapeV5/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
 =======
-			loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeCompiled/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
+			loadstring(game:HttpGet('https://raw.githubusercontent.com/PGN/VapeCompiled/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
 >>>>>>> 90c6aa9d081af9d42b76e428da60d778cd915ace:src/guis/old/gui.lua
 		end
 	end,
@@ -2545,7 +2545,7 @@ topbar:CreateButton({
 <<<<<<< HEAD:guis/old.lua
 			loadstring(game:HttpGet('https://raw.githubusercontent.com/Outlua/VapeV5/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
 =======
-			loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeCompiled/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
+			loadstring(game:HttpGet('https://raw.githubusercontent.com/PGN/VapeCompiled/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
 >>>>>>> 90c6aa9d081af9d42b76e428da60d778cd915ace:src/guis/old/gui.lua
 		end
 	end,
