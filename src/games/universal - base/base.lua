@@ -11,20 +11,47 @@ local isfile = isfile or function(file)
 	end)
 	return suc and res ~= nil and res ~= ''
 end
+local function resolveRepoPath(path)
+    if path:find('^newvape/games/') then
+        return path:gsub('^newvape/games/', 'src/games/')
+    end
+
+    if path:find('^newvape/guis/') then
+        return path:gsub('^newvape/guis/', 'src/guis/')
+    end
+
+    if path:find('^newvape/libraries/') then
+        return path:gsub('^newvape/libraries/', 'src/libraries/')
+    end
+
+    return path:gsub('^newvape/', 'src/')
+end
+
+
 local function downloadFile(path, func)
-	if not isfile(path) then
-		local suc, res = pcall(function()
-			return game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeCompiled/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
-		end)
-		if not suc or res == '404: Not Found' then
-			error(res)
-		end
-		if path:find('.lua') then
-			res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.\n'..res
-		end
-		writefile(path, res)
-	end
-	return (func or readfile)(path)
+    if not isfile(path) then
+        local suc, res = pcall(function()
+            return game:HttpGet(
+                'https://raw.githubusercontent.com/Outlua/VapeV5/' ..
+                readfile('newvape/profiles/commit.txt') ..
+                '/' ..
+                resolveRepoPath(path),
+                true
+            )
+        end)
+
+        if not suc or res == '404: Not Found' then
+            error(res)
+        end
+
+        if path:find('.lua') then
+            res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.\n' .. res
+        end
+
+        writefile(path, res)
+    end
+
+    return (func or readfile)(path)
 end
 local run = function(func)
 	func()

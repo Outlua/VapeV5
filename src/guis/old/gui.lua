@@ -221,11 +221,7 @@ local function downloadFile(path, func)
 	if not isfile(path) then
 		createDownloader(path)
 		local suc, res = pcall(function()
-<<<<<<< HEAD:guis/old.lua
 			return game:HttpGet('https://raw.githubusercontent.com/Outlua/VapeV5/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
-=======
-			return game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeCompiled/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
->>>>>>> 90c6aa9d081af9d42b76e428da60d778cd915ace:src/guis/old/gui.lua
 		end)
 		if not suc or res == '404: Not Found' then
 			error(res)

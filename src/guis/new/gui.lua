@@ -310,25 +310,47 @@ local function createMobileButton(buttonapi, position)
 	buttonapi.Bind = {Button = button}
 end
 
+local function resolveRepoPath(path)
+    if path:find('^newvape/games/') then
+        return path:gsub('^newvape/games/', 'src/games/')
+    end
+
+    if path:find('^newvape/guis/') then
+        return path:gsub('^newvape/guis/', 'src/guis/')
+    end
+
+    if path:find('^newvape/libraries/') then
+        return path:gsub('^newvape/libraries/', 'src/libraries/')
+    end
+
+    return path:gsub('^newvape/', 'src/')
+end
+
+
 local function downloadFile(path, func)
-	if not isfile(path) then
-		createDownloader(path)
-		local suc, res = pcall(function()
-<<<<<<< HEAD:guis/new.lua
-			return game:HttpGet('https://raw.githubusercontent.com/Outlua/VapeV5/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
-=======
-			return game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeCompiled/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
->>>>>>> 90c6aa9d081af9d42b76e428da60d778cd915ace:src/guis/new/gui.lua
-		end)
-		if not suc or res == '404: Not Found' then
-			error(res)
-		end
-		if path:find('.lua') then
-			res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.\n'..res
-		end
-		writefile(path, res)
-	end
-	return (func or readfile)(path)
+    if not isfile(path) then
+        local suc, res = pcall(function()
+            return game:HttpGet(
+                'https://raw.githubusercontent.com/Outlua/VapeV5/' ..
+                readfile('newvape/profiles/commit.txt') ..
+                '/' ..
+                resolveRepoPath(path),
+                true
+            )
+        end)
+
+        if not suc or res == '404: Not Found' then
+            error(res)
+        end
+
+        if path:find('.lua') then
+            res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.\n' .. res
+        end
+
+        writefile(path, res)
+    end
+
+    return (func or readfile)(path)
 end
 
 getcustomasset = not inputService.TouchEnabled and assetfunction and function(path)
@@ -4015,11 +4037,7 @@ general:CreateButton({
 		if shared.VapeDeveloper then
 			loadstring(readfile('newvape/loader.lua'), 'loader')()
 		else
-<<<<<<< HEAD:guis/new.lua
 			loadstring(game:HttpGet('https://raw.githubusercontent.com/Outlua/VapeV5/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
-=======
-			loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeCompiled/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
->>>>>>> 90c6aa9d081af9d42b76e428da60d778cd915ace:src/guis/new/gui.lua
 		end
 	end,
 	Tooltip = 'This will set your profile to the default settings of Vape'
@@ -4038,11 +4056,7 @@ general:CreateButton({
 		if shared.VapeDeveloper then
 			loadstring(readfile('newvape/loader.lua'), 'loader')()
 		else
-<<<<<<< HEAD:guis/new.lua
 			loadstring(game:HttpGet('https://raw.githubusercontent.com/Outlua/VapeV5/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
-=======
-			loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeCompiled/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
->>>>>>> 90c6aa9d081af9d42b76e428da60d778cd915ace:src/guis/new/gui.lua
 		end
 	end,
 	Tooltip = 'Reloads vape for debugging purposes'
@@ -4150,11 +4164,7 @@ guipane:CreateDropdown({
 			if shared.VapeDeveloper then
 				loadstring(readfile('newvape/loader.lua'), 'loader')()
 			else
-<<<<<<< HEAD:guis/new.lua
 				loadstring(game:HttpGet('https://raw.githubusercontent.com/Outlua/VapeV5/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
-=======
-				loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeCompiled/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
->>>>>>> 90c6aa9d081af9d42b76e428da60d778cd915ace:src/guis/new/gui.lua
 			end
 		end
 	end,
